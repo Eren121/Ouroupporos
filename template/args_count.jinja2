@@ -1,0 +1,26 @@
+{#
+
+// Example outputed With Maximum 3 arguments
+
+#define N2(a1, a2, a3, a4, ...) a4
+
+#define N(...) N2(__VA_ARGS__, 3, 2, 1)
+
+#}
+#pragma once
+
+#define {{ macro("N2") }}( \
+    {% for i in range(recursion_limit) %}
+        a{{ i }}, \
+    {% endfor %}
+        count, \
+        ...) count
+
+// Do not work with 0 arguments (returns 1 with zero arguments)
+#define {{ macro("N") }}(...) \
+    {{ macro("N2") }}( \
+        __VA_ARGS__ \
+    {% for i in range(recursion_limit, 0, -1) %}
+        , {{ i }}
+    {% endfor %}
+)
