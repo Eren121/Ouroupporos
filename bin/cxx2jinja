@@ -1,0 +1,19 @@
+#!/bin/bash
+# Sometimes the files do not need to be templated
+# For uniformity, this file replace all local includes and OPP_ macros to a generic jinja2 syntax
+#
+
+if [[ $# -ne 2 ]]; then
+    printf "Usage: %s <input> <output>\n" $0
+    printf "Where input is the c++ source file and output is the jinja2 template output file\n"
+    exit
+fi
+
+cxx_file="$1"
+jinja_file="$2"
+
+# Replace 'OPP_XYZ' by '{{ macro("XYZ") }}'
+sed -E 's/OPP_([[:alnum:]_]+)/\{\{ macro("\1") \}\}/g' "$cxx_file" > "$jinja_file"
+
+# Replace '#include "x.y"' by '{{ header("x") }}'
+sed -i -E 's/#include +"([[:alnum:]_-]+).[[:alnum:]_-]+"/#include "\{\{ header("\1") \}\}"/g' "$jinja_file"

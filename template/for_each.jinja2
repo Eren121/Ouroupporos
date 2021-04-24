@@ -2,7 +2,7 @@
 
 // Example outputed With Maximum 3 arguments; recursion_limit=3
 
-#define FOR_EACH(f, values) CAT(FOR_EACH, N(values))(f, values)
+#define FOR_EACH(f, ...) CAT(FOR_EACH, N(__VA_ARGS__))(f, __VA_ARGS__)
 #define FOR_EACH3(f, x, ...) f(x) FOR_EACH2(f, __VA_ARGS__)
 #define FOR_EACH2(f, x, ...) f(x) FOR_EACH1(f, __VA_ARGS__)
 #define FOR_EACH1(f, x) f(x)
@@ -10,11 +10,11 @@
 #}
 #pragma once
 
-#include "{{ header("cat") }}"
+#include "{{ header("expand") }}"
 #include "{{ header("args_count") }}"
 
-#define {{ macro("FOR_EACH") }}(f, values) \
-    {{ macro("CAT") }}({{ macro("FOR_EACH") }}, {{ macro("N") }}(values))(f, values)
+#define {{ macro("FOR_EACH") }}(f, ...) \
+    {{ macro("CAT") }}({{ macro("FOR_EACH") }}, {{ macro("N") }}(__VA_ARGS__))(f, __VA_ARGS__)
 
 #define {{ macro("FOR_EACH1") }}(f, x) f(x)
 

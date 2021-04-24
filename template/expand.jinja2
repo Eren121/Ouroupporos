@@ -1,0 +1,13 @@
+#pragma once
+
+// "##" operator expansion
+#define {{ macro("CAT2") }}(a, b) a##b
+#define {{ macro("CAT") }}(a, b) {{ macro("CAT2") }}(a, b)
+
+
+// "#" operator expansion
+#define {{ macro("STR2") }}(...) #__VA_ARGS__
+#define {{ macro("STR") }}(...) {{ macro("STR2") }}(__VA_ARGS__)
+
+// https://stackoverflow.com/questions/35530850/how-to-require-a-semicolon-after-a-macro
+#define {{ macro("REQUIRE_SEMICOLON") }} static_assert(true, "Requires a semicolon at the end of the expression")

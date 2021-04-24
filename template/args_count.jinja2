@@ -21,6 +21,7 @@
     {{ macro("N2") }}( \
         __VA_ARGS__ \
     {% for i in range(recursion_limit, 0, -1) %}
-        , {{ i }}
+        , {{ i }} \
     {% endfor %}
 )
+// Empty line at end of file
